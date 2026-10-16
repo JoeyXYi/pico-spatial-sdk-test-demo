@@ -15,8 +15,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-      - name: Install Android SDK 35
-        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Check preinstalled Android SDK 35
+        run: |
+          test -f "$ANDROID_HOME/platforms/android-35/android.jar"
+          test -x "$ANDROID_HOME/build-tools/35.0.0/aapt2"
       - uses: gradle/actions/setup-gradle@v4
       - name: Build, unit tests and Android lint
         run: sh gradlew --no-daemon :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
